@@ -51,13 +51,13 @@ This means you'll need to explicitly set the `base_name` argument when registeri
 
 ### Extra link and actions
 
-Any methods on the viewset decorated with `@link` or `@action` will also be routed.
+Any methods on the viewset decorated with `@detail_route` or `@list_route` will also be routed.
 For example, given a method like this on the `UserViewSet` class:
 
 	from myapp.permissions import IsAdminOrIsSelf
-    from rest_framework.decorators import action
+    from rest_framework.decorators import detail_route
 
-    @action(permission_classes=[IsAdminOrIsSelf])
+    @detail_route(methods=['post'], permission_classes=[IsAdminOrIsSelf])
     def set_password(self, request, pk=None):
         ...
 
@@ -69,7 +69,7 @@ The following URL pattern would additionally be generated:
 
 ## SimpleRouter
 
-This router includes routes for the standard set of `list`, `create`, `retrieve`, `update`, `partial_update` and `destroy` actions.  The viewset can also mark additional methods to be routed, using the `@link` or `@action` decorators.
+This router includes routes for the standard set of `list`, `create`, `retrieve`, `update`, `partial_update` and `destroy` actions.  The viewset can also mark additional methods to be routed, using the `@detail_route` or `@list_route` decorators.
 
 <table border=1>
     <tr><th>URL Style</th><th>HTTP Method</th><th>Action</th><th>URL Name</th></tr>
@@ -79,8 +79,8 @@ This router includes routes for the standard set of `list`, `create`, `retrieve`
     <tr><td>PUT</td><td>update</td></tr>
     <tr><td>PATCH</td><td>partial_update</td></tr>
     <tr><td>DELETE</td><td>destroy</td></tr>
-    <tr><td rowspan=2>{prefix}/{lookup}/{methodname}/</td><td>GET</td><td>@link decorated method</td><td rowspan=2>{basename}-{methodname}</td></tr>
-    <tr><td>POST</td><td>@action decorated method</td></tr>
+    <tr><td rowspan=2>{prefix}/{lookup}/{methodname}/</td><td>GET</td><td>@detail_route decorated method</td><td rowspan=2>{basename}-{methodname}</td></tr>
+    <tr><td>POST</td><td>@detail_route decorated method</td></tr>
 </table>
 
 By default the URLs created by `SimpleRouter` are appended with a trailing slash.
@@ -103,8 +103,8 @@ This router is similar to `SimpleRouter` as above, but additionally includes a d
     <tr><td>PUT</td><td>update</td></tr>
     <tr><td>PATCH</td><td>partial_update</td></tr>
     <tr><td>DELETE</td><td>destroy</td></tr>
-    <tr><td rowspan=2>{prefix}/{lookup}/{methodname}/[.format]</td><td>GET</td><td>@link decorated method</td><td rowspan=2>{basename}-{methodname}</td></tr>
-    <tr><td>POST</td><td>@action decorated method</td></tr>
+    <tr><td rowspan=2>{prefix}/{lookup}/{methodname}/[.format]</td><td>GET</td><td>@detail_route decorated method</td><td rowspan=2>{basename}-{methodname}</td></tr>
+    <tr><td>POST</td><td>@detail_route decorated method</td></tr>
 </table>
 
 As with `SimpleRouter` the trailing slashes on the URL routes can be removed by setting the `trailing_slash` argument to `False` when instantiating the router.
